@@ -1,6 +1,13 @@
 # Oncode – Online Coding Platform
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://oncode.vercel.app/)
 
 An online coding platform inspired by LeetCode where users can solve programming problems, submit code in multiple languages, and receive instant feedback through secure code execution.
+
+## 📷 Screenshots
+
+> *(Add your screenshots here: Home Page, Problem List, Problem Editor, Submission Result, Dashboard)*
+
+---
 
 ## 🚀 Features
 
@@ -52,12 +59,6 @@ An online coding platform inspired by LeetCode where users can solve programming
 
 ---
 
-## 📷 Screenshots
-
-> *(Add your screenshots here: Home Page, Problem Editor, Submission Result, Admin Dashboard)*
-
----
-
 ## ⚙️ Installation
 
 ### Clone Repository
@@ -105,12 +106,6 @@ npm run dev
 ```
 
 ---
-
-## 🎯 Challenges Faced
-
-Handling asynchronous execution in a distributed system was the biggest challenge. Sending code to an execution engine takes time, and waiting synchronously would crash the server under load.
-
-I solved this by implementing a batching and polling architecture: the backend dispatches a batch submission to Judge0, receives unique tokens, and asynchronously polls the API with exponential backoff until the execution is completed, ensuring the main Express thread remains unblocked.
 
 ## 💡 What I Learned
 - Secure authentication using HTTP-Only cookies and JWT

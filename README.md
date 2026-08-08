@@ -1,6 +1,6 @@
 # Oncode – Online Coding Platform
 
-[![Live Demo](https://oncode-self.vercel.app/)]
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-blue?style=for-the-badge)](https://oncode-self.vercel.app/)
 
 An online coding platform inspired by LeetCode where users can solve programming problems, submit code in multiple languages, and receive instant feedback through secure code execution.
 

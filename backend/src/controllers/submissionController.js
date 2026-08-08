@@ -58,7 +58,7 @@ const submitCode = async (req, res) => {
 
         const fullCodeToRun = snippet.driverCode.replace("{{USER_CODE}}", code);
         
-        const compilerOptions = langId === 54 ? encodeBase64("-Wall -Werror=return-type") : "";
+        const compilerOptions = langId === 54 ? "-Wall -Werror=return-type" : "";
         
         const submissionPayload = testCases.map(testCase => ({
             language_id: langId,
@@ -157,7 +157,7 @@ const runCode = async (req, res) => {
         
         const fullCodeToRun = snippet.driverCode.replace("{{USER_CODE}}", code);
         
-        const compilerOptions = langId === 54 ? encodeBase64("-Wall -Werror=return-type") : "";
+        const compilerOptions = langId === 54 ? "-Wall -Werror=return-type" : "";
 
         const submissionPayload = [{
             language_id: langId,

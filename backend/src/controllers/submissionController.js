@@ -58,11 +58,14 @@ const submitCode = async (req, res) => {
 
         const fullCodeToRun = snippet.driverCode.replace("{{USER_CODE}}", code);
         
+        const compilerOptions = langId === 54 ? encodeBase64("-Wall -Werror=return-type") : "";
+        
         const submissionPayload = testCases.map(testCase => ({
             language_id: langId,
             source_code: encodeBase64(fullCodeToRun),
             stdin: encodeBase64(testCase.input),
-            expected_output: encodeBase64(testCase.expectedOutput)
+            expected_output: encodeBase64(testCase.expectedOutput),
+            compiler_options: compilerOptions
         }));
 
         const submitResult = await createSubmission(submissionPayload);
@@ -154,11 +157,14 @@ const runCode = async (req, res) => {
         
         const fullCodeToRun = snippet.driverCode.replace("{{USER_CODE}}", code);
         
+        const compilerOptions = langId === 54 ? encodeBase64("-Wall -Werror=return-type") : "";
+
         const submissionPayload = [{
             language_id: langId,
             source_code: encodeBase64(fullCodeToRun), // Send glued code!
             stdin: encodeBase64(testCase.input),
-            expected_output: encodeBase64(testCase.expectedOutput)
+            expected_output: encodeBase64(testCase.expectedOutput),
+            compiler_options: compilerOptions
         }];
         
         const submitResult = await createSubmission(submissionPayload);

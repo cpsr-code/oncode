@@ -17,7 +17,7 @@ An online coding platform inspired by LeetCode where users can solve programming
 
 ### Authentication
 - User registration and login
-- JWT authentication with HTTP-only cookies
+- JWT authentication via Bearer tokens (localStorage)
 - Secure password hashing using bcrypt
 - User profile & stats
 
@@ -112,7 +112,8 @@ npm run dev
 ---
 
 ##  What I Learned
-- Secure authentication using HTTP-Only cookies and JWT
+- Secure authentication using JWT and localStorage
+- Integrating AI assistance (Gemini API) to act as a programming tutor
 - REST API design and distributed system architecture
 - Integrating and managing a remote Judge0 execution engine
 - Protecting endpoints with Redis-backed rate limiting

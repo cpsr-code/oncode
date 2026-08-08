@@ -13,12 +13,10 @@ const AdminDashboard = () => {
      try{
         const { data } = await axiosClient.get('/admin/dashboard')
         setData(data);
-        console.log(data);
        setIsLoading(false);
      }catch(error){
-         console.error("Error in fetching data: " + error.message);
-         setIsLoading(false);
-       }
+        setError("Failed to fetch dashboard statistics");
+     } finally {}
     };
     fetchDashboardStats();
   }, []);

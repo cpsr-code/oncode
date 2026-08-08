@@ -12,13 +12,12 @@ const SolutionBlock = ({ solution }) => {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000);
     } catch (err) {
-      console.error("Failed to copy code: ", err);
+      // copy failed
     }
   };
 
   return (
     <div className="rounded-xl border border-base-content/10 bg-base-200 overflow-hidden shadow-lg mb-6">
-      {/* Code Header (Language Badge & Copy Button) */}
       <div className="flex items-center justify-between px-4 py-2 bg-base-300 border-b border-base-content/10">
         <span className="text-xs font-semibold text-base-content/60 uppercase tracking-wider">
           {displayLanguage} Solution
@@ -36,7 +35,6 @@ const SolutionBlock = ({ solution }) => {
         </button>
       </div>
 
-      {/* The Code Block */}
       <div className="p-4 overflow-x-auto">
         <pre className="text-sm font-mono leading-relaxed text-base-content">
           <code>{code}</code>
@@ -47,7 +45,6 @@ const SolutionBlock = ({ solution }) => {
 };
 
 const ProblemSolution = ({ problem }) => {
-  // Fallback if the admin hasn't provided a solution
   if (!problem || !problem.referenceSolutions || problem.referenceSolutions.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-base-content/50">
@@ -59,8 +56,6 @@ const ProblemSolution = ({ problem }) => {
 
   return (
     <div className="space-y-6 pb-10">
-      
-      {/* Header */}
       <div className="space-y-2 border-b border-base-content/10 pb-4">
         <div className="flex items-center gap-2 text-primary">
           <Lightbulb className="w-5 h-5" />
@@ -71,7 +66,6 @@ const ProblemSolution = ({ problem }) => {
         </p>
       </div>
 
-      {/* Solutions */}
       {problem.referenceSolutions.map((sol, index) => (
         <SolutionBlock key={index} solution={sol} />
       ))}

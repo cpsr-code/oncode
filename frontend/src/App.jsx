@@ -16,7 +16,6 @@ import ProblemWorkSpace from "./pages/problemWorkspace/problemWorkspace";
 import UserProfile from "./pages/UserProfile";
 
 
-// --- Route Wrappers ---
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
@@ -39,10 +38,9 @@ const App = () => {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        console.log("app is dispatching checkAuth")
         await dispatch(checkAuth()).unwrap();
       } catch (error) {
-        console.error("Authentication check failed:", error.message);
+        // failed auth check
       }
     };
     verifyUser();
@@ -58,7 +56,6 @@ const App = () => {
 
   return (
     <Routes>
-      {/* --- PUBLIC & AUTH ROUTES --- */}
       <Route 
         path="/login" 
         element={<PublicOnlyRoute isAuthenticated={isAuthenticated}><Login /></PublicOnlyRoute>} 
@@ -68,7 +65,6 @@ const App = () => {
         element={<PublicOnlyRoute isAuthenticated={isAuthenticated}><Signup /></PublicOnlyRoute>} 
       />
 
-      {/* --- PROTECTED USER ROUTES --- */}
       <Route 
         path="/" 
         element={<ProtectedRoute isAuthenticated={isAuthenticated}><Home /></ProtectedRoute>} 
@@ -82,7 +78,6 @@ const App = () => {
         element={<ProtectedRoute isAuthenticated={isAuthenticated}><ProblemWorkSpace /></ProtectedRoute>} 
       />
 
-      {/* --- ADMIN ROUTES --- */}
       <Route
         path="/admin"
         element={<AdminRoute user={user} isAuthenticated={isAuthenticated}><AdminLayout /></AdminRoute>}
@@ -93,7 +88,6 @@ const App = () => {
         <Route path="users" element={<UserManagement />} />
       </Route>
 
-      {/* --- CATCH ALL (404) --- */}
       <Route 
         path="*" 
         element={

@@ -75,7 +75,7 @@ const SignUp = () => {
       await dispatch(registerUser(userData)).unwrap();
       navigate('/', { replace: true });
     } catch (err) {
-      console.log("Registration Attempt Failed");
+      // Registration failed
     }
   };
 

@@ -89,7 +89,6 @@ const submitCode = async (req, res) => {
                     failedTestCase = {
                         input: truncateString(testCases[i].input),
                         expectedOutput: truncateString(testCases[i].expectedOutput),
-                        // 3. Truncate actual output to protect DB
                         actualOutput: truncateString(decodeBase64(test.stdout))
                     };
                 } else { // Compilation or Runtime Errors
@@ -161,7 +160,7 @@ const runCode = async (req, res) => {
 
         const submissionPayload = [{
             language_id: langId,
-            source_code: encodeBase64(fullCodeToRun), // Send glued code!
+            source_code: encodeBase64(fullCodeToRun),
             stdin: encodeBase64(testCase.input),
             expected_output: encodeBase64(testCase.expectedOutput),
             compiler_options: compilerOptions

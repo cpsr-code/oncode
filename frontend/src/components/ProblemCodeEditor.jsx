@@ -27,10 +27,8 @@ const ProblemCodeEditor = ({
   return (
     <div className="flex-1 flex flex-col min-h-0">
       
-      {/* --- Toolbar: Language & Settings --- */}
       <div className="flex items-center justify-between px-4 h-12 bg-base-200 shrink-0 border-b border-base-content/10">
         
-        {/* Language Selection */}
         <select
           value={selectedLanguage}
           onChange={(e) => setSelectedLanguage(e.target.value)}
@@ -43,7 +41,6 @@ const ProblemCodeEditor = ({
           ))}
         </select>
 
-        {/* Font Size Configuration */}
         <div className="flex items-center gap-2">
           <Settings className="w-4 h-4 text-base-content/50" />
           <span className="text-xs text-base-content/60 font-medium">Font Size:</span>
@@ -61,7 +58,6 @@ const ProblemCodeEditor = ({
         </div>
       </div>
 
-      {/* --- Monaco Editor Wrapper --- */}
       <div className="flex-1 relative bg-black">
         <Editor
           height="100%"

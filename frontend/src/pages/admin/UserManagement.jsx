@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { UserPlus, Shield, AlertCircle, CheckCircle } from 'lucide-react';
 import axiosClient from '../../utils/axiosClient';
 
-// 1. Updated Zod Schema matching the backend controller
 const userRegistrationSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
@@ -20,7 +19,6 @@ const UserManagement = () => {
   const [submitError, setSubmitError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // 2. Initialize React Hook Form with new default values
   const {
     register,
     handleSubmit,
@@ -37,33 +35,26 @@ const UserManagement = () => {
     }
   });
 
-  // 3. Handle Form Submission
   const onSubmit = async (data) => {
     setSubmitError('');
     setSuccessMessage('');
 
     try {
-      // The 'data' object now perfectly matches: { firstName, lastName, email, password, role }
-      console.log(data);
       const response = await axiosClient.post('/user/admin/register', data); 
       
       setSuccessMessage(`${data.firstName} ${data.lastName} has been successfully registered as an ${data.role}.`);
-      reset(); // Clear the form after successful registration
+      reset();
       
     } catch (error) {
-      console.error("Failed to register user:", error);
-      // We can also catch the specific 400 error message from your controller (e.g., "Email is already registered.")
       setSubmitError(error.response?.data?.message || "Failed to register the new user. Please try again.");
     }
   };
 
-  // Reusable Styling
   const inputClass = "input input-bordered w-full bg-base-100 border-base-content/20 text-base-content focus:border-primary focus:outline-none";
 
   return (
     <div className="space-y-6 text-base-content pb-12">
       
-      {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-base-content flex items-center gap-2">
@@ -74,7 +65,6 @@ const UserManagement = () => {
         </div>
       </div>
 
-      {/* Alert Messages */}
       {submitError && (
         <div className="bg-error/10 border border-error/20 text-error p-4 rounded-lg flex items-center gap-3">
           <AlertCircle className="w-5 h-5" />
@@ -89,7 +79,6 @@ const UserManagement = () => {
         </div>
       )}
 
-      {/* Main Form Card */}
       <div className="bg-base-200 max-w-2xl rounded-xl border border-base-content/10 shadow-xl overflow-hidden">
         
         <div className="p-6 border-b border-base-content/10 bg-base-300">

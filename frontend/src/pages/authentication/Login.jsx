@@ -38,7 +38,7 @@ const Login = () => {
       await dispatch(loginUser(data)).unwrap();
       navigate('/', { replace: true });
     } catch (err) {
-      console.log("Login Attempt Failed"); 
+      
     }
   };
 

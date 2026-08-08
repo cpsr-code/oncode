@@ -6,18 +6,16 @@ const ProblemSubmissions = ({ problemId }) => {
   const [submissions, setSubmissions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [expandedId, setExpandedId] = useState(null); // Tracks which submission accordion is open
+  const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
         const { data } = await axiosClient.get(`/problem/submissions/${problemId}`); 
-        console.log(data);
 
         setSubmissions(data.submissions || []);
         setIsLoading(false);  
       } catch (err) {
-        console.error("Error fetching submissions:", err);
         setError("Failed to load submissions.");
         setIsLoading(false);
       }
@@ -28,7 +26,6 @@ const ProblemSubmissions = ({ problemId }) => {
     }
   }, [problemId]);
 
-  // Helper to color-code the status
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case 'accepted': return 'text-success';
@@ -36,7 +33,6 @@ const ProblemSubmissions = ({ problemId }) => {
     }
   };
 
-  // Helper to format the timestamp cleanly (e.g., "May 21, 2026")
   const formatDate = (dateString) => {
     const options = { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -84,12 +80,10 @@ const ProblemSubmissions = ({ problemId }) => {
         return (
           <div key={sub._id} className="bg-base-100 border border-base-content/10 rounded-lg overflow-hidden transition-all duration-200 hover:border-base-content/20">
             
-            {/* --- Accordion Header (Always Visible) --- */}
             <div 
               onClick={() => toggleExpand(sub._id)}
               className="flex items-center justify-between p-4 cursor-pointer hover:bg-base-200 transition-colors"
             >
-              {/* Left Side: Status & Test Cases */}
               <div className="flex flex-col gap-1">
                 <span className={`text-lg font-bold ${getStatusColor(sub.status)} capitalize`}>
                   {sub.status || 'Pending'}
@@ -99,7 +93,6 @@ const ProblemSubmissions = ({ problemId }) => {
                 </span>
               </div>
 
-              {/* Right Side: Metrics, Date & Toggle Icon */}
               <div className="flex items-center gap-6 text-xs text-base-content/60">
                 <div className="hidden sm:flex flex-col items-end gap-1">
                   <div className="flex items-center gap-2">
@@ -120,11 +113,9 @@ const ProblemSubmissions = ({ problemId }) => {
               </div>
             </div>
 
-            {/* --- Accordion Body: Code & Errors (Expanded State) --- */}
             {isExpanded && (
               <div className="border-t border-base-content/10 bg-base-300">
                 
-                {/* Render error message if it exists */}
                 {sub.errorMessage && (
                   <div className="p-4 bg-error/10 border-b border-error/20">
                     <p className="text-error font-mono text-xs whitespace-pre-wrap">{sub.errorMessage}</p>

@@ -170,7 +170,6 @@ const getUserStats = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    // 1. Fetch User and Populate Solved Problems
     // We only fetch the 'difficulty' field
     const user = await User.findById(userId).populate({
       path: "problemsSolved",
@@ -181,7 +180,6 @@ const getUserStats = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // 2. Calculate Difficulty Breakdown
     let easySolved = 0;
     let mediumSolved = 0;
     let hardSolved = 0;
@@ -195,14 +193,12 @@ const getUserStats = async (req, res) => {
 
     const totalSolved = easySolved + mediumSolved + hardSolved;
 
-    // 3. Calculate Submission Metrics
     const totalSubmissions = await Submission.countDocuments({ userId });
     const acceptedSubmissions = await Submission.countDocuments({
       userId,
       status: "Accepted",
     });
 
-    // 4. Calculate Acceptance Rate
     let acceptanceRate = 0;
     if (totalSubmissions > 0) {
       acceptanceRate = Math.round(
@@ -210,13 +206,11 @@ const getUserStats = async (req, res) => {
       );
     }
 
-    // 5. Format Join Date
     const joinDate = new Date(user.createdAt).toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
     });
 
-    // 6. Send the precisely formatted payload to the frontend
     res.status(200).json({
       message: "User statistics fetched successfully",
       stats: {

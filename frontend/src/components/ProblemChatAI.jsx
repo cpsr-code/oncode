@@ -12,7 +12,6 @@ const ChatAI = ({ problem, code, language }) => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Auto-scroll to the latest message
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -27,12 +26,10 @@ const ChatAI = ({ problem, code, language }) => {
 
     const userQuestion = inputValue.trim();
     
-    //Add User Message to UI instantly
     setMessages(prev => [...prev, { role: 'user', content: userQuestion }]);
     setInputValue('');
     setIsLoading(true);
     try {
-      //Construct the payload
       const payload = {
         problemTitle: problem.title,
         problemDescription: problem.description, 
@@ -41,13 +38,10 @@ const ChatAI = ({ problem, code, language }) => {
         userQuestion: userQuestion
       };
 
-      // Make the API Call
       const { data } = await axiosClient.post('/chatAI/doubt', payload);
 
-      //Append AI Response
       setMessages(prev => [...prev, { role: 'ai', content: data.reply }]);
     } catch (error) {
-      console.error("AI Chat Error:", error);
       setMessages(prev => [...prev, { 
         role: 'ai', 
         content: "Sorry, I encountered an error connecting to the server. Please check your connection and try again." 
@@ -59,22 +53,18 @@ const ChatAI = ({ problem, code, language }) => {
 
   return (
     <div className="flex flex-col h-full bg-base-300">
-      
-      {/* Chat History Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {messages.map((msg, index) => (
           <div 
             key={index} 
             className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
-            {/* Avatar */}
             <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
               msg.role === 'user' ? 'bg-primary' : 'bg-secondary'
             }`}>
               {msg.role === 'user' ? <User className="w-5 h-5 text-primary-content" /> : <Bot className="w-5 h-5 text-secondary-content" />}
             </div>
 
-            {/* Message Bubble */}
             <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
               msg.role === 'user' 
                 ? 'bg-primary text-primary-content rounded-tr-none' 
@@ -91,7 +81,6 @@ const ChatAI = ({ problem, code, language }) => {
           </div>
         ))}
         
-        {/* Loading Indicator */}
         {isLoading && (
           <div className="flex gap-3">
             <div className="shrink-0 w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
@@ -106,7 +95,6 @@ const ChatAI = ({ problem, code, language }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
       <div className="p-4 bg-base-200 border-t border-base-content/10 shrink-0">
         <form 
           onSubmit={handleSendMessage}

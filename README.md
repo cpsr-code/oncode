@@ -1,15 +1,19 @@
 # Oncode – Online Coding Platform
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://oncode.vercel.app/)
+
+[![Live Demo](https://oncode-self.vercel.app/)
 
 An online coding platform inspired by LeetCode where users can solve programming problems, submit code in multiple languages, and receive instant feedback through secure code execution.
 
-## 📷 Screenshots
+##  Screenshots
 
-> *(Add your screenshots here: Home Page, Problem List, Problem Editor, Submission Result, Dashboard)*
+> <img width="1916" height="937" alt="Screenshot 2026-08-08 120158" src="https://github.com/user-attachments/assets/e4dde490-aa3c-4f3b-84b4-35c9702ea1f0" />
+  <img width="1912" height="938" alt="Screenshot 2026-08-08 120324" src="https://github.com/user-attachments/assets/a5f16218-8147-4350-a68d-ee3a9d8b81ab" />
+
+
 
 ---
 
-## 🚀 Features
+##  Features
 
 ### Authentication
 - User registration and login
@@ -107,7 +111,7 @@ npm run dev
 
 ---
 
-## 💡 What I Learned
+##  What I Learned
 - Secure authentication using HTTP-Only cookies and JWT
 - REST API design and distributed system architecture
 - Integrating and managing a remote Judge0 execution engine

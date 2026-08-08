@@ -6,13 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const client = require("../config/redis");
 
-// Centralized cookie options for consistency and security
-const cookieOptions = {
-  maxAge: 60 * 60 * 1000, // 1 hour
-  httpOnly: true, // Prevents XSS attacks
-  secure: process.env.NODE_ENV === "production", // Requires HTTPS in production
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Required for cross-origin cookies
-};
+// cookieOptions are no longer needed as we use localStorage + Bearer tokens
 
 // handler for authentication register, login, logout
 const register = async (req, res) => {
@@ -34,8 +28,6 @@ const register = async (req, res) => {
       { expiresIn: "1h" },
     );
 
-    res.cookie("token", token, cookieOptions);
-
     const userData = {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -46,6 +38,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       user: userData,
+      token,
       message: "Registered Successfully",
     });
   } catch (err) {
@@ -92,10 +85,9 @@ const login = async (req, res) => {
       { expiresIn: "1h" },
     );
 
-    res.cookie("token", token, cookieOptions);
-
     res.status(200).json({
       user: userData,
+      token,
       message: "Logged in successfully",
     });
   } catch (err) {
@@ -105,15 +97,19 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    const { token } = req.cookies;
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Authentication token missing." });
+    }
+    const token = authHeader.split(" ")[1];
 
     const payload = jwt.decode(token);
 
-    // add it to redis blacklist untill it expired
-    await client.set(`token:${token}`, "Blocked");
-    await client.expireAt(`token:${token}`, payload.exp);
-
-    res.cookie("token", null, { ...cookieOptions, maxAge: 0 });
+    if (payload && payload.exp) {
+      // add it to redis blacklist until it expired
+      await client.set(`token:${token}`, "Blocked");
+      await client.expireAt(`token:${token}`, payload.exp);
+    }
 
     res.status(200).json({ message: "Logged out successfully." });
   } catch (err) {
@@ -148,7 +144,8 @@ const deleteProfile = async (req, res) => {
 
     await User.findByIdAndDelete(userId);
 
-    res.cookie("token", null, { ...cookieOptions, maxAge: 0 });
+    // Token should ideally be blacklisted here too, but frontend will clear localStorage
+
     res.status(200).json({ message: "Profile deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Failed to delete profile." });

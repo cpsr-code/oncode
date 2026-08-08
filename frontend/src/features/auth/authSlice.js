@@ -18,6 +18,9 @@ export const registerUser = createAsyncThunk(
     async (userData, {rejectWithValue}) => {
         try {
             const response = await axiosClient.post('/user/register', userData);
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
             return response.data.user;
         } catch (error) {
             return handleAxiosError(error, rejectWithValue);
@@ -30,6 +33,9 @@ export const loginUser = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await axiosClient.post('/user/login', credentials);
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
             return response.data.user;
         } catch(error) {
             return handleAxiosError(error, rejectWithValue);
@@ -44,6 +50,7 @@ export const checkAuth = createAsyncThunk(
             const { data } = await axiosClient.get('/user/check');
             return data.user;
         } catch (error) {
+            localStorage.removeItem('token');
             return handleAxiosError(error, rejectWithValue);
         }
     }
@@ -54,8 +61,10 @@ export const logoutUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             await axiosClient.post('/user/logout');
+            localStorage.removeItem('token');
             return null;
         } catch (error) {
+            localStorage.removeItem('token'); // ensure it's cleared even if backend call fails
             return handleAxiosError(error, rejectWithValue);
         }
     }

@@ -5,12 +5,13 @@ const client = require("../config/redis");
 // verify user is valid and logged in
 const userMiddleware = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
-    if (!token) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res
         .status(401)
         .json({ message: "Authentication token is missing. Please log in." });
     }
+    const token = authHeader.split(" ")[1];
 
     // verify token
     const payload = jwt.verify(token, process.env.JWT_KEY);

@@ -116,5 +116,5 @@ npm run dev
 - Integrating AI assistance (Gemini API) to act as a programming tutor
 - REST API design and distributed system architecture
 - Integrating and managing a remote Judge0 execution engine
-- Protecting endpoints with Redis-backed rate limiting
+- Protecting endpoints with rate limiting
 - State management in React with Redux Toolkit
